@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: Build + Publish
-    runs-on: rubylang/ruby:3.1-focal
+    runs-on: ubuntu-focal
     permissions:
       contents: read
       packages: write
