@@ -122,7 +122,7 @@ static bool dssc_advance_after_current(Scorer *self)
             }
         }
 
-        if (dssc->num_matches >= dssc->min_num_matches) { 
+        if (dssc->num_matches >= dssc->min_num_matches) {
             return true;
         }
         else if (scorer_queue->size < dssc->min_num_matches) {
@@ -161,7 +161,7 @@ static bool dssc_skip_to(Scorer *self, int doc_num)
     if (doc_num <= self->doc) {
         doc_num = self->doc + 1;
     }
-    while (true) { 
+    while (true) {
         Scorer *top = (Scorer *)pq_top(scorer_queue);
         if (top->doc >= doc_num) {
             return dssc_advance_after_current(self);
@@ -206,7 +206,7 @@ static void dssc_destroy(Scorer *self)
 }
 
 static Scorer *disjunction_sum_scorer_new(Scorer **sub_scorers, int ss_cnt,
-                                          int min_num_matches) 
+                                          int min_num_matches)
 {
     Scorer *self = scorer_new(DisjunctionSumScorer, NULL);
     DSSc(self)->ss_cnt = ss_cnt;
@@ -417,7 +417,7 @@ static void csc_destroy(Scorer *self)
     scorer_destroy_i(self);
 }
 
-static Scorer *conjunction_scorer_new(Similarity *similarity) 
+static Scorer *conjunction_scorer_new(Similarity *similarity)
 {
     Scorer *self = scorer_new(ConjunctionScorer, similarity);
 
@@ -653,7 +653,7 @@ static bool rxsc_to_non_excluded(Scorer *self)
     Scorer *excl_scorer = RXSc(self)->excl_scorer;
     int excl_doc = excl_scorer->doc, req_doc;
 
-    do { 
+    do {
         /* may be excluded */
         req_doc = req_scorer->doc;
         if (req_doc < excl_doc) {
@@ -941,7 +941,7 @@ static Scorer *counting_sum_scorer_create(BooleanScorer *bsc)
                 bsc,
                 counting_disjunction_sum_scorer_new(bsc->coordinator,
                                                        bsc->optional_scorers,
-                                                       bsc->os_cnt, 1), 
+                                                       bsc->os_cnt, 1),
                 NULL, 0); /* no optional scorers left */
         }
     }
@@ -969,7 +969,7 @@ static Scorer *bsc_init_counting_sum_scorer(BooleanScorer *bsc)
     return bsc->counting_sum_scorer = counting_sum_scorer_create(bsc);
 }
 
-static void bsc_add_scorer(Scorer *self, Scorer *scorer, unsigned int occur) 
+static void bsc_add_scorer(Scorer *self, Scorer *scorer, unsigned int occur)
 {
     BooleanScorer *bsc = BSc(self);
     if (occur != BC_MUST_NOT) {
@@ -1305,7 +1305,7 @@ static unsigned long bc_hash(BooleanClause *self)
 
 static int  bc_eq(BooleanClause *self, BooleanClause *o)
 {
-    return ((self->occur == o->occur) && q_eq(self->query, o->query)); 
+    return ((self->occur == o->occur) && q_eq(self->query, o->query));
 }
 
 BooleanClause *bc_new(Query *query, BCType occur)
@@ -1343,7 +1343,7 @@ static Query *bq_rewrite(Query *self, IndexReader *ir)
     bool rewritten = false;
     bool has_non_prohibited_clause = false;
 
-    if (clause_cnt == 1) { 
+    if (clause_cnt == 1) {
         /* optimize 1-clause queries */
         BooleanClause *clause = BQ(self)->clauses[0];
         if (! clause->is_prohibited) {
@@ -1502,7 +1502,7 @@ static float bq_coord_disabled(Similarity *sim, int overlap, int max_overlap)
 static Similarity *bq_get_similarity(Query *self, Searcher *searcher)
 {
     if (!BQ(self)->similarity) {
-        Similarity *sim = q_get_similarity_i(self, searcher); 
+        Similarity *sim = q_get_similarity_i(self, searcher);
         BQ(self)->similarity = ALLOC(Similarity);
         memcpy(BQ(self)->similarity, sim, sizeof(Similarity));
         BQ(self)->similarity->coord = &bq_coord_disabled;
@@ -1528,7 +1528,7 @@ static int  bq_eq(Query *self, Query *o)
     BooleanQuery *bq1 = BQ(self);
     BooleanQuery *bq2 = BQ(o);
     if ((bq1->coord_disabled != bq2->coord_disabled)
-        || (bq1->max_clause_cnt != bq1->max_clause_cnt)
+        || (bq1->max_clause_cnt != bq2->max_clause_cnt)
         || (bq1->clause_cnt != bq2->clause_cnt)) {
         return false;
     }
@@ -1618,4 +1618,3 @@ BooleanClause *bq_add_query(Query *self, Query *sub_query, BCType occur)
     REF(sub_query);
     return bq_add_query_nr(self, sub_query, occur);
 }
-
