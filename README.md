@@ -17,6 +17,13 @@ ruby/
     This directory contains the Ruby bindings and tests. See ruby/README.md for
     information on installing Ferret's Ruby bindings
 
+Instructions
+============
+
+* Build the gem: `cd ruby && rake gem`
+* Publish the gem on github: see [RubyGems registry docs](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-rubygems-registry)
+* Use in Gemfile: `gem "ferret", "0.11.9.0", source: "https://rubygems.pkg.github.com/b08x"`
+
 Contributions
 =============
 
@@ -32,7 +39,7 @@ Acknowledgements
 =================
 
 [The Apache Software Foundation (Doug Cutting and friends)][1] Original Apache
-Lucene. There have also been many other contributers to Ferret. I will start 
+Lucene. There have also been many other contributers to Ferret. I will start
 to record them on the Ferret website.
 
 [Jens Krämer][3] for keeping this project alive.

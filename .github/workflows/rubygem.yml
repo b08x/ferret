@@ -26,14 +26,18 @@ jobs:
 
       - name: Publish to GPR
         run: |
+          sudo apt update -qq && \
+          sudo apt install -y --no-install-recommends wget git curl apt-transport-https zip build-essential ragel libtool-bin minisat libczmq-dev automake autoconf && \
+          sudo echo 'deb http://apt.llvm.org/focal/ llvm-toolchain-focal main' >> /etc/apt/sources.list && \
+          sudo echo 'deb http://apt.llvm.org/focal/ llvm-toolchain-focal-11 main' >> /etc/apt/sources.list && \
+          sudo wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key|sudo apt-key add - && sudo apt update -qq
           mkdir -p $HOME/.gem
           touch $HOME/.gem/credentials
           chmod 0600 $HOME/.gem/credentials
           printf -- "---\n:github: ${GEM_HOST_API_KEY}\n" > $HOME/.gem/credentials
-          cd c/ && make
-          echo "rake build:compile"
-          # gem build *.gemspec
-          # gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} *.gem
+          cd ruby && rake build:compile && \
+          rake test:all && rake gem && \
+          cd pkg/ && gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} *.gem
         env:
           GEM_HOST_API_KEY: "Bearer ${{secrets.GITHUB_TOKEN}}"
           OWNER: ${{ github.repository_owner }}
