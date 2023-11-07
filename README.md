@@ -47,7 +47,7 @@ to record them on the Ferret website.
 Code Status
 ===========
 
-[![Build Status](https://travis-ci.org/dbalmain/ferret.svg?branch=master)](https://travis-ci.org/dbalmain/ferret)
+[![Build Status](https://github.com/b08x/ferret/actions/workflows/rubygem.yml/badge.svg?branch=development)](https://github.com/b08x/ferret/actions/workflows/rubygem.yml)
 
 License
 ========
